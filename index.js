@@ -1,16 +1,13 @@
 'use strict';
 
-const React = require('react');
-const ReactNative = require('react-native');
-const {
-    Shape,
-    Surface,
-    Path,
-} = ReactNative.ART;
+import React, { PureComponent } from 'react';
+import { ART, StyleSheet, Platform } from 'react-native';
 
-const ClipRectIOS = React.createClass({
-    render: function () {
-        const style = ReactNative.StyleSheet.flatten(this.props.style);
+const { Shape, Surface, Path } = ART;
+
+class ClipRectIOS extends PureComponent {
+    render () {
+        const style = StyleSheet.flatten(this.props.style);
         let { width, height, borderRadius, borderTopLeftRadius, borderTopRightRadius, borderBottomRightRadius, borderBottomLeftRadius, color } = style;
         borderRadius = borderRadius || 0;
         const tl = borderTopLeftRadius || borderRadius;
@@ -42,8 +39,8 @@ const ClipRectIOS = React.createClass({
                 <Shape d={path} fill={color} />
             </Surface>
         );
-    },
-});
+    }
+};
 
 const TIMES = 30;
 const _X = (r, d) => Math.cos(Math.PI / 180 * d) * r;
@@ -55,9 +52,9 @@ const arc = (path, x, y, r, t) => {
     }
 };
 
-const ClipRectAndroid = React.createClass({
-    render: function () {
-        const style = ReactNative.StyleSheet.flatten(this.props.style);
+class ClipRectAndroid extends PureComponent {
+    render () {
+        const style = StyleSheet.flatten(this.props.style);
         let { width, height, borderRadius, borderTopLeftRadius, borderTopRightRadius, borderBottomRightRadius, borderBottomLeftRadius, color } = style;
         borderRadius = borderRadius || 0;
         const tl = borderTopLeftRadius || borderRadius;
@@ -89,7 +86,7 @@ const ClipRectAndroid = React.createClass({
                 <Shape d={path} fill={color} />
             </Surface>
         );
-    },
-});
+    }
+};
 
-module.exports = ReactNative.Platform.OS === 'android' ? ClipRectAndroid : ClipRectIOS;
+export default Platform.OS === 'android' ? ClipRectAndroid : ClipRectIOS;
